@@ -65,16 +65,10 @@ def fix_brightness(img):
     return img
 
 
-img = cv2.imread('outputs/best_1.png')
+img = cv2.imread('outputs/best.png')
 cv2.imshow("BEFORE fix brightness", img)
 cv2.waitKey(0)
 w, h, c = img.shape
-
-
-# img = fix_brightness(img)
-
-# img[:, 0:h//2] = fix_brightness(img[:, 0:h//2])
-# img[:, h//2:h] = fix_brightness(img[:, h//2:h])
 
 img[0:w//2, 0:h//2] = fix_brightness(img[0:w//2, 0:h//2])
 img[w//2:w, h//2:h] = fix_brightness(img[w//2:w, h//2:h])
@@ -83,22 +77,16 @@ img[0:w//2, h//2:h] = fix_brightness(img[0:w//2, h//2:h])
 
 
 cv2.imshow("fix brightness", img)
-cv2.waitKey(0)
 
 img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
-print(np.mean(img))
-ret,thresh1 = cv2.threshold(img,194,255,cv2.THRESH_BINARY)
-ret,thresh3 = cv2.threshold(img,194,255,cv2.THRESH_TRUNC)
-ret,thresh4 = cv2.threshold(img,90,255,cv2.THRESH_TOZERO)
-titles = ['Original Image','BINARY','TRUNC','TOZERO']
-images = [img, thresh1, thresh3, thresh4]
-for i in range (4):
-    cv2.imshow(titles[i], images[i])
-    print("-----------------------------------------------")
-    print(titles[i])
-    text = pytesseract.image_to_string(images[i])
-    print(text)
-    print()
-    cv2.waitKey(0)
-cv2.destroyAllWindows()
+text = pytesseract.image_to_string(img)
+print(text)
+cv2.waitKey(0)
+
+img = cv2.GaussianBlur(img, (3, 3), 0)
+thresh4 = cv2.adaptiveThreshold(img, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 255, 11)
+cv2.imshow("ADAPTIVE", thresh4)
+text = pytesseract.image_to_string(thresh4)
+print(text)
+cv2.waitKey(0)

@@ -1,35 +1,7 @@
-'''
-Wiener deconvolution.
-Sample shows how DFT can be used to perform Weiner deconvolution [1]
-of an image with user-defined point spread function (PSF)
-Usage:
-  deconvolution.py  [--circle]
-      [--angle <degrees>]
-      [--d <diameter>]
-      [--snr <signal/noise ratio in db>]
-      [<input image>]
-  Use sliders to adjust PSF paramitiers.
-  Keys:
-    SPACE - switch btw linear/circular PSF
-    ESC   - exit
-Examples:
-  deconvolution.py --angle 135 --d 22  licenseplate_motion.jpg
-    (image source: http://www.topazlabs.com/infocus/_images/licenseplate_compare.jpg)
-  deconvolution.py --angle 86 --d 31  text_motion.jpg
-  deconvolution.py --circle --d 19  text_defocus.jpg
-    (image source: compact digital photo camera, no artificial distortion)
-[1] http://en.wikipedia.org/wiki/Wiener_deconvolution
-'''
-
-# Python 2/3 compatibility
 from __future__ import print_function
 
 import numpy as np
 import cv2 as cv
-
-# local module
-# from common import nothing
-
 
 def blur_edge(img, d=31):
     h, w  = img.shape[:2]

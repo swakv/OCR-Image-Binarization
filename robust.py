@@ -162,7 +162,7 @@ def deskew(cvImage):
     return angle
 
 
-img_path = 'samples/test3.png'
+img_path = 'samples/sample02.png'
 image = cv2.imread(img_path)
 im = skimage.io.imread(img_path)
 cv.imshow("original image", image)
@@ -171,8 +171,11 @@ cv.waitKey(0)
 
 angle_skew = deskew(image)
 image = rotateImage(image, -1.0 * angle_skew)
-newdata = pytesseract.image_to_osd(im, nice=1)
-angle_rot = re.search('(?<=Rotate: )\d+', newdata).group(0)
+try: 
+    newdata = pytesseract.image_to_osd(im, nice=1)
+    angle_rot = re.search('(?<=Rotate: )\d+', newdata).group(0)
+except: 
+    angle_rot = 0
 rotated = ndimage.rotate(image, -float(angle_rot))
 
 if angle_rot !=0 and angle_skew == 0:
@@ -201,12 +204,9 @@ cv2.imshow("Fix brightness", brightness_1)
 img = cv2.cvtColor(brightness_1, cv2.COLOR_BGR2GRAY)
 cv2.waitKey(0)
 
-img = cv2.GaussianBlur(img, (3, 3), 0)
-
 image = adaptive_thresh(img)
 cv2.imshow("Adaptive Threshold", image)
-text = pytesseract.image_to_string(img)
-boxes = pytesseract.image_to_boxes(img)
+text = pytesseract.image_to_string(image)
 print()
 print(text)
 cv2.waitKey(0)

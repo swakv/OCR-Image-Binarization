@@ -5,10 +5,6 @@ image = cv2.imread('samples/sample02.png', 0)
 cv2.imshow("Original Image", image)
 cv2.waitKey(0)
 
-# img = cv2.GaussianBlur(image, (3, 3), 0)
-# cv2.imshow("Gaussian Blur", img)
-# cv2.waitKey(0)
-
 def adaptive_thresh(image):
 
     window_size = image.shape[1]/16
