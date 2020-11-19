@@ -1,7 +1,9 @@
 import numpy as np
 import cv2
+import pytesseract
 
-image = cv2.imread('samples/sample02.png', 0)
+
+image = cv2.imread('../samples/sample02.png', 0)
 cv2.imshow("Original Image", image)
 cv2.waitKey(0)
 
@@ -38,5 +40,7 @@ def adaptive_thresh(image):
     return output
 
 image = adaptive_thresh(image)
-cv2.imshow("after", image)
+cv2.imshow("Adaptive Thresholding", image)
+text = pytesseract.image_to_string(image)
+print(text)
 cv2.waitKey(0)
