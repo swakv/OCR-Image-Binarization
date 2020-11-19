@@ -90,13 +90,13 @@ def fix_brightness(img):
 
     return img
 
-image = cv.imread('samples/sample01.png')
+image = cv.imread('samples/test3.png')
 cv.imshow("original image", image)
 cv.waitKey(0)
 sharpened_image = unsharp_mask(image)
 cv.imshow("sharpened image", sharpened_image)
 cv.waitKey(0)
-cv.imwrite("temp.png", sharpened_image)
+cv.imwrite("temp/temp.png", sharpened_image)
 
 im = Image.open('temp/temp.png')
 brightness_1 = overallBrightness(im)
@@ -118,7 +118,7 @@ cv2.waitKey(0)
 img = cv2.GaussianBlur(img, (3, 3), 0)
 thresh4 = cv2.adaptiveThreshold(img, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 255, 11)
 cv2.imshow("ADAPTIVE", thresh4)
-# text = pytesseract.image_to_string(thresh4)
-# print(text)
+text = pytesseract.image_to_string(thresh4)
+print(text)
 cv2.waitKey(0)
 

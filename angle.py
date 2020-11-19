@@ -1,34 +1,46 @@
+import cv2
 
+def getSkewAngle(cvImage) -> float:
+    # Prep image, copy, convert to gray scale, blur, and threshold
+    newImage = cvImage.copy()
+    gray = cv2.cvtColor(newImage, cv2.COLOR_BGR2GRAY)
+    blur = cv2.GaussianBlur(gray, (9, 9), 0)
+    thresh = cv2.threshold(blur, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)[1]
 
-import sys
-import matplotlib.pyplot as plt
-import numpy as np
-from PIL import Image as im
-from scipy.ndimage import interpolation as inter
-input_file = 'outputs/my-sharpened-image.jpg'
-img = im.open(input_file)
-# convert to binary
-wd, ht = img.size
-pix = np.array(img.convert('1').getdata(), np.uint8)
-bin_img = 1 - (pix.reshape((ht, wd)) / 255.0)
-plt.imshow(bin_img, cmap='gray')
-plt.savefig('binary.png')
-def find_score(arr, angle):
-    data = inter.rotate(arr, angle, reshape=False, order=0)
-    hist = np.sum(data, axis=1)
-    score = np.sum((hist[1:] - hist[:-1]) ** 2)
-    return hist, score
-delta = 1
-limit = 5
-angles = np.arange(-limit, limit+delta, delta)
-scores = []
-for angle in angles:
-    hist, score = find_score(bin_img, angle)
-    scores.append(score)
-best_score = max(scores)
-best_angle = angles[scores.index(best_score)]
-print('Best angle: {}'.format(best_angle))
-# correct skew
-data = inter.rotate(bin_img, best_angle, reshape=False, order=0)
-img = im.fromarray((255 * data).astype("uint8")).convert("RGB")
-# img.save('skew_corrected.png')
+    # Apply dilate to merge text into meaningful lines/paragraphs.
+    # Use larger kernel on X axis to merge characters into single line, cancelling out any spaces.
+    # But use smaller kernel on Y axis to separate between different blocks of text
+    kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (30, 5))
+    dilate = cv2.dilate(thresh, kernel, iterations=5)
+
+    # Find all contours
+    _, contours, hierarchy = cv2.findContours(dilate, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
+    contours = sorted(contours, key = cv2.contourArea, reverse = True)
+
+    # Find largest contour and surround in min area box
+    largestContour = contours[0]
+    minAreaRect = cv2.minAreaRect(largestContour)
+
+    # Determine the angle. Convert it to the value that was originally used to obtain skewed image
+    angle = minAreaRect[-1]
+    if angle < -45:
+        angle = 90 + angle
+    return -1.0 * angle
+
+def rotateImage(cvImage, angle: float):
+    newImage = cvImage.copy()
+    (h, w) = newImage.shape[:2]
+    center = (w // 2, h // 2)
+    M = cv2.getRotationMatrix2D(center, angle, 1.0)
+    newImage = cv2.warpAffine(newImage, M, (w, h), flags=cv2.INTER_CUBIC, borderMode=cv2.BORDER_REPLICATE)
+    return newImage
+
+# Deskew image
+def deskew(cvImage):
+    angle = getSkewAngle(cvImage)
+    return rotateImage(cvImage, -1.0 * angle)
+	
+image = cv2.imread('samples/test3.png')
+print(getSkewAngle(image))
+# cv.imshow("original image", image)
+# cv.waitKey(0)
