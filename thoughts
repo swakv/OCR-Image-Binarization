@@ -1,0 +1,16 @@
+possible improvements
+
+Tesseract's output will have very poor quality if the input images are not preprocessed to suit it: Images (especially screenshots) must be scaled up such that the text x-height is at least 20 pixels,[13] any rotation or skew must be corrected or no text will be recognized, low-frequency changes in brightness must be high-pass filtered, or Tesseract's binarization stage will destroy much of the page, and dark borders must be manually removed, or they will be misinterpreted as characters.[14]
+
+
+mess with thresholds
+partition more and brightness
+
+check dictionary/Language Model
+
+y inv bad
+
+research paper impl
+adaptive
+
+own images
