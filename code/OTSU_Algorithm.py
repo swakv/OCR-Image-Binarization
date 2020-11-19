@@ -2,7 +2,7 @@ import math
 import numpy as np
 import cv2
 from matplotlib import pyplot as plt
-
+import pytesseract
 
 threshold_values = {}
 
@@ -29,7 +29,7 @@ def calc_variance(s, e):
     v /= w
     return v
 
-img = cv2.imread('samples/sample01.png', 0)
+img = cv2.imread('../samples/sample02.png', 0)
 
 # CREATE HISTOGRAM
 hist = np.zeros(256)
@@ -67,5 +67,7 @@ for i in range(0,img.shape[0]):
 
 
 cv2.imshow("OTSU", img)
+text = pytesseract.image_to_string(img)
+print(text)
 cv2.waitKey(0)
 
