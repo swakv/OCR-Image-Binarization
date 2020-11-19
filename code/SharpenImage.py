@@ -13,11 +13,11 @@ def unsharp_mask(image, kernel_size=(5, 5), sigma=1.0, amount=1.0, threshold=0):
         np.copyto(sharpened, image, where=low_contrast_mask)
     return sharpened
 
-image = cv.imread('samples/sample01.png')
-cv.imshow("ori", image)
+image = cv.imread('../samples/sample02.png')
+cv.imshow("Original", image)
 cv.waitKey(0)
 sharpened_image = unsharp_mask(image)
-cv.imwrite('my-sharpened-image_1.jpg', sharpened_image)
-cv.imshow("here", sharpened_image)
+# cv.imwrite('my-sharpened-image_1.jpg', sharpened_image)
+cv.imshow("Sharpened", sharpened_image)
 cv.waitKey(0)
 # cv.imwrite()

@@ -39,7 +39,7 @@ def main():
 
     win = 'deconvolution'
 
-    img = cv.imread('/home/nishka/Desktop/CV_Project/sample02.png', cv.IMREAD_GRAYSCALE)
+    img = cv.imread('../samples/sample02.png', cv.IMREAD_GRAYSCALE)
     if img is None:
         print('Failed to load file:', fn)
         sys.exit(1)

@@ -40,10 +40,11 @@ def deskew(cvImage):
     angle = getSkewAngle(cvImage)
     return angle
 	
-img_path = 'samples/test0.png'
+img_path = '../samples/test0.png'
 image = cv2.imread(img_path)
 im = skimage.io.imread(img_path)
-cv2.imshow("original image", image)
+imS = cv2.resize(image, (660, 540))
+cv2.imshow("original image", imS)
 cv2.waitKey(0)
 
 angle_skew = deskew(image)
@@ -55,7 +56,8 @@ rotated = ndimage.rotate(image, -float(angle_rot))
 if angle_rot !=0 and angle_skew == 0:
     image = rotated
 
-cv2.imshow("Fixed Image", image)
+imS = cv2.resize(image, (760, 540))
+cv2.imshow("Fixed Image", imS)
 cv2.waitKey(0)
 
 

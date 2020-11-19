@@ -6,10 +6,9 @@ import pytesseract
 import numpy as np
 import matplotlib.pyplot as plt
 
-im = Image.open('outputs/my-sharpened-image_1.jpg')
-# im = Image.open('outputs/my-sharpened-image.jpg')
+im = Image.open('../outputs/my-sharpened-image.jpg')
 white = im.filter(ImageFilter.BLUR).filter(ImageFilter.MaxFilter(15))
-
+im.show("ORIGINAL")
 grey = im.convert('L')
 width,height = im.size
 impix = im.load()
@@ -21,9 +20,9 @@ for y in range(height):
     for x in range(width):
         greypix[x,y] = min(255, max(255 + impix[x,y][0] - whitepix[x,y][0], 255 + impix[x,y][1] - whitepix[x,y][1], 255 + impix[x,y][2] - whitepix[x,y][2]))
 
-grey.show()
+grey.show("CONTRAST")
 
 result = pytesseract.image_to_string(grey, lang="eng")
 print(result)
 
-grey.save("best_1.png")
+# grey.save("best_1.png")

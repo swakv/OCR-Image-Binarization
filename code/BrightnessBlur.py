@@ -5,7 +5,6 @@ from matplotlib import pyplot as plt
 
 def fix_brightness(img):
     img_dot = img
-    print("INSIDE FIX BRIGHTNESS-------------")
     lab= cv2.cvtColor(img, cv2.COLOR_BGR2LAB)
     l, a, b = cv2.split(lab)
     y,x,z = img.shape
@@ -25,7 +24,6 @@ def fix_brightness(img):
                     maxval.append(maxVal)
 
     avg_maxval = round(sum(maxval) / len(maxval))
-    print("this is    ", avg_maxval)
     if avg_maxval>35 and avg_maxval<45:
         norm_img2 = cv2.normalize(img, None, alpha=0, beta=1.8, norm_type=cv2.NORM_MINMAX, dtype=cv2.CV_32F)
         norm_img2 = np.clip(norm_img2, 0, 1)
@@ -65,7 +63,7 @@ def fix_brightness(img):
     return img
 
 
-img = cv2.imread('outputs/best.png')
+img = cv2.imread('../outputs/best_1.png')
 cv2.imshow("BEFORE fix brightness", img)
 cv2.waitKey(0)
 w, h, c = img.shape
