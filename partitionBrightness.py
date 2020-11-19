@@ -65,7 +65,7 @@ def fix_brightness(img):
     return img
 
 
-img = cv2.imread('/home/nishka/Desktop/CV_Project/sample01.png')
+img = cv2.imread('outputs/best_1.png')
 cv2.imshow("BEFORE fix brightness", img)
 cv2.waitKey(0)
 w, h, c = img.shape
@@ -87,9 +87,9 @@ cv2.waitKey(0)
 
 img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
-
-ret,thresh1 = cv2.threshold(img,90,255,cv2.THRESH_BINARY)
-ret,thresh3 = cv2.threshold(img,127,255,cv2.THRESH_TRUNC)
+print(np.mean(img))
+ret,thresh1 = cv2.threshold(img,194,255,cv2.THRESH_BINARY)
+ret,thresh3 = cv2.threshold(img,194,255,cv2.THRESH_TRUNC)
 ret,thresh4 = cv2.threshold(img,90,255,cv2.THRESH_TOZERO)
 titles = ['Original Image','BINARY','TRUNC','TOZERO']
 images = [img, thresh1, thresh3, thresh4]

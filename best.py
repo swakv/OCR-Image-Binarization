@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 import pytesseract
 
-img = cv2.imread('/home/nishka/Desktop/CV_Project/my-sharpened-image.jpg',0)
+img = cv2.imread('/Users/Swa/Documents/NTU/Y3S1/CZ4003/OCR-Image-Binarization/outputs/my-sharpened-image.jpg',0)
 cv2.imshow("IMAGE", img)
 cv2.waitKey(0)
 
