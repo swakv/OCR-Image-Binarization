@@ -1,0 +1,13 @@
+3 3 , with 11
+
+sharpen -> PILbest -> partitionBrightness  -> adaptive
+
+
+rotation
+
+local gaussian thresholding (adaptive with gaussian) from scratch
+
+
+show comparison between original after img enhancement and with adaptive thresholding
+
+mention character segmentation (?)
